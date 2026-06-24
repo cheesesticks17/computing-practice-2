@@ -9,6 +9,8 @@ def sort_category(data: dict, itemlist: list, category: str):
     '''
     for i in range(len(itemlist)):
         item = itemlist[i]
+        if item == "":
+            break
         if not category in data: #checks if the category is already in
             data[category] = {item: 1}
         else:
@@ -55,7 +57,38 @@ def write_histogram_to_file(histogram_data: Dict[str, Dict[str, int]], output_fi
         histogram_data: The dictionary returned by process_survey_data
         output_file: Path to the output file
     """
-    # Write your code here
+
+    data = [["functions", "strings", "lists"]]
+    with open(output_file, "w") as file:
+        writer = csv.writer(file)
+        functions =  histogram_data["functions"]
+        strings = histogram_data["strings"]
+        lists = histogram_data["lists"]
+        for key in functions:
+            functionlist = key + "; " + str(functions[key])
+        for key in strings:
+            stringlist = key + ";" + str(strings[key])
+        for key in lists:
+            listlist = key + ";" + str(lists[key])
+        index = 0
+        while index < len(functionlist) or index < len(stringlist) or index < len(listlist):
+            row = []
+            if index < len(functionlist):
+                row.append(functionlist[index])
+            else:
+                row.append("")
+            if index < len(stringlist):
+                row.append(stringlist[index])
+            else:
+                row.append("")
+            if index < len(listlist):
+                row.append(listlist[index])
+            else:
+                row.append("")
+            data.append(row)
+            index = index + 1
+        writer.writerows(data)
+
 
     pass
 
